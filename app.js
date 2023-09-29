@@ -21,58 +21,73 @@ const promptUser = () => {
         },
         {
             type: 'input',
-            name: 'GitHub username',
+            name: 'username',
             message: 'Enter your GitHub Username',
             validate: usernameInput => {
                 if (usernameInput) {
                     return true;
                 } else {
-                    console.log('Please enter your name!');
+                    console.log('You need to enter your GitHub Username!');
                     return false;
                 }
             }
         },
         {
+            type: 'confirm',
+            name: 'confirmAbout',
+            message: 'Would you like to enter some information about yourself for an "About" section?',
+            default: true
+        },
+        {
             type: 'input',
             name: 'about',
-            message: 'Provide some information about yourself:'
-        }
+            message: 'Provide some information about yourself:',
+            // -when- property is like the validate method, but instead of passing the value entered for that specific question in as the parameter, it passes an object of all of the answers given so far as an object
+            when: ({ confirmAbout }) => {
+                if (confirmAbout) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
     ]);
 };
 
 const promptProject = portfolioData => {
-    // If there's no 'projects' array property, create one
-    if (!portfolioData.projects) {
-        portfolioData.projects = [];
-    }
     console.log(`
     =================
     Add a New Project
     =================
     `);
+
+    // If there's no 'projects' array property, create one
+    if (!portfolioData.projects) {
+        portfolioData.projects = [];
+    }
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'Project name',
+            name: 'name',
             message: 'What is the name of your project?',
-            validate: projectNameInput => {
-                if (projectNameInput) {
+            validate: nameInput => {
+                if (nameInput) {
                     return true;
                 } else {
-                    console.log('Please enter your name!');
+                    console.log('You need to enter a project name!');
                     return false;
                 }
             }
         },
         {
             type: 'input',
-            name: 'Project description',
+            name: 'description',
             message: 'Provide a description of the project (Required)',
-            validate: projectDescInput => {
-                if (projectDescInput) {
+            validate: descriptionInput => {
+                if (descriptionInput) {
                     return true;
                 } else {
-                    console.log('Please enter your name!');
+                    console.log('You need to enter a project description!');
                     return false;
                 }
             }
@@ -85,13 +100,13 @@ const promptProject = portfolioData => {
         },
         {
             type: 'input', 
-            name: 'Project GitHub link',
+            name: 'link',
             message: 'Enter the GitHub link to your project. (Required)',
-            validate: projectLinkInput => {
-                if (projectLinkInput) {
+            validate: linkInput => {
+                if (linkInput) {
                     return true;
                 } else {
-                    console.log('Please enter your name!');
+                    console.log('You need to enter a project GitHub link!');
                     return false;
                 }
             }
